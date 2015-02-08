@@ -1,0 +1,25 @@
+= search_form_for @q, data: { remote: true } do |f|
+  = f.label :name_cont
+  = f.search_field :name_cont
+  br
+  = f.label :email_cont
+  = f.search_field :email_cont
+
+  = f.submit
+
+h1
+  | Listing users
+table
+  thead
+    tr
+      th
+        | Name
+      th
+        | Email
+      th
+      th
+      th
+  tbody id="index_list"
+    = render 'list'
+br
+= link_to 'New User', new_user_path

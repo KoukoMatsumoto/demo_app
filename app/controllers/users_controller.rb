@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_search, only: [:index, :ajax]
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+  end
+
+  def ajax
   end
 
   # GET /users/1
@@ -62,6 +64,10 @@ class UsersController < ApplicationController
   end
 
   private
+    def set_search
+      @q = User.ransack(params[:q])
+      @users = @q.result(distinct: true)
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
