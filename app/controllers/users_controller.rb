@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action only: [:index] do
+    get_query('query_users')
+  end
   before_action :set_search, only: [:index]
   # GET /users
   # GET /users.json
@@ -61,8 +64,13 @@ class UsersController < ApplicationController
   end
 
   private
+    def get_query(cookie_key)
+      cookies.delete(cookie_key) if params[:clear]
+      cookies[cookie_key] = params[:q].to_json if params[:q]
+      @query = params[:q].presence || JSON.load(cookies[cookie_key])
+    end
     def set_search
-      @q = User.ransack(params[:q])
+      @q = User.ransack(@query)
       @users = @q.result(distinct: true)
     end
     # Use callbacks to share common setup or constraints between actions.
