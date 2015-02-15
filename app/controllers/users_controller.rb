@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
+    @users = User.all
   end
 
   # GET /users/1
@@ -17,6 +18,8 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @user.posts_users.build
+    @user.posts_users.first.attributes = {post_id: 1}
   end
 
   # GET /users/1/edit
@@ -80,6 +83,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email)
+      params.require(:user).permit(:name, :email, posts_users_attributes: [:post_id, :memo])
     end
 end
