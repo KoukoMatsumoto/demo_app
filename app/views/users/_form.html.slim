@@ -1,4 +1,4 @@
-= form_for(@user) do |f|
+= form_for(@user, class: "dialog") do |f|
   - if @user.errors.any?
     #error_explanation
       h2
@@ -25,5 +25,8 @@
         = ff.hidden_field :id if post.persisted?
         = ff.text_field :memo
         = ff.hidden_field :post_id
+  = check_box_tag "test", 1, false, class: "change_event"
   .actions
-    = f.submit
+    = f.submit class: "dialog dialog_off", data: {msg: "保存していいですか"}
+
+= link_to "User", users_path, class: "disable_on"
